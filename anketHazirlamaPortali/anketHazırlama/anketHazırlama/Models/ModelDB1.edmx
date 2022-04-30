@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DB01Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Anket">
+          <Key>
+            <PropertyRef Name="anketId" />
+          </Key>
+          <Property Name="anketId" Type="int" Nullable="false" />
+          <Property Name="anketBaslik" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="anketSoruları" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="anketTarih" Type="datetime" Nullable="false" />
+          <Property Name="anketKategoriId" Type="int" Nullable="false" />
+          <Property Name="anketUyeId" Type="int" Nullable="false" />
+          <Property Name="anketOkunma" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="kategoriId" />
+          </Key>
+          <Property Name="kategoriId" Type="int" Nullable="false" />
+          <Property Name="kategoriAdi" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sonuc">
+          <Key>
+            <PropertyRef Name="sonucId" />
+          </Key>
+          <Property Name="sonucId" Type="int" Nullable="false" />
+          <Property Name="sonucIcerik" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="sonucUyeId" Type="int" Nullable="false" />
+          <Property Name="sonucAnketId" Type="int" Nullable="false" />
+          <Property Name="sonucTarih" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Uye">
+          <Key>
+            <PropertyRef Name="uyeId" />
+          </Key>
+          <Property Name="uyeId" Type="int" Nullable="false" />
+          <Property Name="kullaniciAdi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="sifre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="adSoyad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="uyeAdmin" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Anket_ToKategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="1" />
+          <End Role="Anket" Type="Self.Anket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="kategoriId" />
+            </Principal>
+            <Dependent Role="Anket">
+              <PropertyRef Name="anketKategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Anket_ToUye">
+          <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+          <End Role="Anket" Type="Self.Anket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uye">
+              <PropertyRef Name="uyeId" />
+            </Principal>
+            <Dependent Role="Anket">
+              <PropertyRef Name="anketUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sonuc_ToAnket">
+          <End Role="Anket" Type="Self.Anket" Multiplicity="1" />
+          <End Role="Sonuc" Type="Self.Sonuc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Anket">
+              <PropertyRef Name="anketId" />
+            </Principal>
+            <Dependent Role="Sonuc">
+              <PropertyRef Name="sonucAnketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sonuc_ToUye">
+          <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+          <End Role="Sonuc" Type="Self.Sonuc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uye">
+              <PropertyRef Name="uyeId" />
+            </Principal>
+            <Dependent Role="Sonuc">
+              <PropertyRef Name="sonucUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB01ModelStoreContainer">
+          <EntitySet Name="Anket" EntityType="Self.Anket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sonuc" EntityType="Self.Sonuc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uye" EntityType="Self.Uye" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Anket_ToKategori" Association="Self.FK_Anket_ToKategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Anket" EntitySet="Anket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Anket_ToUye" Association="Self.FK_Anket_ToUye">
+            <End Role="Uye" EntitySet="Uye" />
+            <End Role="Anket" EntitySet="Anket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sonuc_ToAnket" Association="Self.FK_Sonuc_ToAnket">
+            <End Role="Anket" EntitySet="Anket" />
+            <End Role="Sonuc" EntitySet="Sonuc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sonuc_ToUye" Association="Self.FK_Sonuc_ToUye">
+            <End Role="Uye" EntitySet="Uye" />
+            <End Role="Sonuc" EntitySet="Sonuc" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB01Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Anket">
+          <Key>
+            <PropertyRef Name="anketId" />
+          </Key>
+          <Property Name="anketId" Type="Int32" Nullable="false" />
+          <Property Name="anketBaslik" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="anketSoruları" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="anketTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="anketKategoriId" Type="Int32" Nullable="false" />
+          <Property Name="anketUyeId" Type="Int32" Nullable="false" />
+          <Property Name="anketOkunma" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Kategori" Relationship="Self.FK_Anket_ToKategori" FromRole="Anket" ToRole="Kategori" />
+          <NavigationProperty Name="Uye" Relationship="Self.FK_Anket_ToUye" FromRole="Anket" ToRole="Uye" />
+          <NavigationProperty Name="Sonuc" Relationship="Self.FK_Sonuc_ToAnket" FromRole="Anket" ToRole="Sonuc" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="kategoriId" />
+          </Key>
+          <Property Name="kategoriId" Type="Int32" Nullable="false" />
+          <Property Name="kategoriAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Anket" Relationship="Self.FK_Anket_ToKategori" FromRole="Kategori" ToRole="Anket" />
+        </EntityType>
+        <EntityType Name="Sonuc">
+          <Key>
+            <PropertyRef Name="sonucId" />
+          </Key>
+          <Property Name="sonucId" Type="Int32" Nullable="false" />
+          <Property Name="sonucIcerik" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sonucUyeId" Type="Int32" Nullable="false" />
+          <Property Name="sonucAnketId" Type="Int32" Nullable="false" />
+          <Property Name="sonucTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Anket" Relationship="Self.FK_Sonuc_ToAnket" FromRole="Sonuc" ToRole="Anket" />
+          <NavigationProperty Name="Uye" Relationship="Self.FK_Sonuc_ToUye" FromRole="Sonuc" ToRole="Uye" />
+        </EntityType>
+        <EntityType Name="Uye">
+          <Key>
+            <PropertyRef Name="uyeId" />
+          </Key>
+          <Property Name="uyeId" Type="Int32" Nullable="false" />
+          <Property Name="kullaniciAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="adSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="uyeAdmin" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Anket" Relationship="Self.FK_Anket_ToUye" FromRole="Uye" ToRole="Anket" />
+          <NavigationProperty Name="Sonuc" Relationship="Self.FK_Sonuc_ToUye" FromRole="Uye" ToRole="Sonuc" />
+        </EntityType>
+        <Association Name="FK_Anket_ToKategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="1" />
+          <End Role="Anket" Type="Self.Anket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="kategoriId" />
+            </Principal>
+            <Dependent Role="Anket">
+              <PropertyRef Name="anketKategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Anket_ToUye">
+          <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+          <End Role="Anket" Type="Self.Anket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uye">
+              <PropertyRef Name="uyeId" />
+            </Principal>
+            <Dependent Role="Anket">
+              <PropertyRef Name="anketUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sonuc_ToAnket">
+          <End Role="Anket" Type="Self.Anket" Multiplicity="1" />
+          <End Role="Sonuc" Type="Self.Sonuc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Anket">
+              <PropertyRef Name="anketId" />
+            </Principal>
+            <Dependent Role="Sonuc">
+              <PropertyRef Name="sonucAnketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sonuc_ToUye">
+          <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+          <End Role="Sonuc" Type="Self.Sonuc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uye">
+              <PropertyRef Name="uyeId" />
+            </Principal>
+            <Dependent Role="Sonuc">
+              <PropertyRef Name="sonucUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB01Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Anket" EntityType="Self.Anket" />
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" />
+          <EntitySet Name="Sonuc" EntityType="Self.Sonuc" />
+          <EntitySet Name="Uye" EntityType="Self.Uye" />
+          <AssociationSet Name="FK_Anket_ToKategori" Association="Self.FK_Anket_ToKategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Anket" EntitySet="Anket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Anket_ToUye" Association="Self.FK_Anket_ToUye">
+            <End Role="Uye" EntitySet="Uye" />
+            <End Role="Anket" EntitySet="Anket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sonuc_ToAnket" Association="Self.FK_Sonuc_ToAnket">
+            <End Role="Anket" EntitySet="Anket" />
+            <End Role="Sonuc" EntitySet="Sonuc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sonuc_ToUye" Association="Self.FK_Sonuc_ToUye">
+            <End Role="Uye" EntitySet="Uye" />
+            <End Role="Sonuc" EntitySet="Sonuc" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB01ModelStoreContainer" CdmEntityContainer="DB01Entities1">
+          <EntitySetMapping Name="Anket">
+            <EntityTypeMapping TypeName="DB01Model.Anket">
+              <MappingFragment StoreEntitySet="Anket">
+                <ScalarProperty Name="anketId" ColumnName="anketId" />
+                <ScalarProperty Name="anketBaslik" ColumnName="anketBaslik" />
+                <ScalarProperty Name="anketSoruları" ColumnName="anketSoruları" />
+                <ScalarProperty Name="anketTarih" ColumnName="anketTarih" />
+                <ScalarProperty Name="anketKategoriId" ColumnName="anketKategoriId" />
+                <ScalarProperty Name="anketUyeId" ColumnName="anketUyeId" />
+                <ScalarProperty Name="anketOkunma" ColumnName="anketOkunma" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategori">
+            <EntityTypeMapping TypeName="DB01Model.Kategori">
+              <MappingFragment StoreEntitySet="Kategori">
+                <ScalarProperty Name="kategoriId" ColumnName="kategoriId" />
+                <ScalarProperty Name="kategoriAdi" ColumnName="kategoriAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sonuc">
+            <EntityTypeMapping TypeName="DB01Model.Sonuc">
+              <MappingFragment StoreEntitySet="Sonuc">
+                <ScalarProperty Name="sonucId" ColumnName="sonucId" />
+                <ScalarProperty Name="sonucIcerik" ColumnName="sonucIcerik" />
+                <ScalarProperty Name="sonucUyeId" ColumnName="sonucUyeId" />
+                <ScalarProperty Name="sonucAnketId" ColumnName="sonucAnketId" />
+                <ScalarProperty Name="sonucTarih" ColumnName="sonucTarih" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uye">
+            <EntityTypeMapping TypeName="DB01Model.Uye">
+              <MappingFragment StoreEntitySet="Uye">
+                <ScalarProperty Name="uyeId" ColumnName="uyeId" />
+                <ScalarProperty Name="kullaniciAdi" ColumnName="kullaniciAdi" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="sifre" ColumnName="sifre" />
+                <ScalarProperty Name="adSoyad" ColumnName="adSoyad" />
+                <ScalarProperty Name="uyeAdmin" ColumnName="uyeAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
